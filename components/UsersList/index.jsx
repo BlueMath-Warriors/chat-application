@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useUserContext } from "@/context/userContext";
 import { loadUsersFromLocalStorage } from "@/utils/chatUtils";
+import { clearUserFromLocalStorage } from "@/utils/localStorage";
 
 /**
  * UsersList component displays a list of users and allows searching and selecting a user.
@@ -14,11 +16,17 @@ import { loadUsersFromLocalStorage } from "@/utils/chatUtils";
  * @returns {JSX.Element} The UsersList component.
  */
 const UsersList = (props) => {
+  const router = useRouter();
   const { onSelectUser, show, handleShowConversation } = props;
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const { currentUser } = useUserContext();
+
+  const handleLogout = () => {
+    clearUserFromLocalStorage();
+    router.push("/login");
+  };
 
   useEffect(() => {
     const storedUsers = loadUsersFromLocalStorage();
@@ -54,6 +62,17 @@ const UsersList = (props) => {
         <h2 className="text-white text-lg font-semibold">
           {currentUser?.name}
         </h2>
+        <button
+          className="hover:scale-105 cursor-pointer ml-auto"
+          onClick={handleLogout}
+        >
+          <Image
+            src={"/images/logout-icon.svg"}
+            alt="logout icon"
+            width={24}
+            height={24}
+          />
+        </button>
       </div>
 
       {/* Search input */}
