@@ -55,9 +55,10 @@ The purpose of this application is to assess and demonstrate frontend developmen
 ## Assumptions or Considerations
 
 - The application is designed solely for frontend assessment purposes.
-- Features such as real-time communication or socket-based updates are not implemented.
+- Features such as real-time communication or socket-based updates are not implemented but can be implemented if needed.
 - Message reactions and starred messages are not persistent and are reset on app refresh.
 - Currently, there are only five users: `John Doe` `Jane Smith` `Alice Johnson` `Bob Brown` `Apple Chad` whose dummy chat is present in the storage.
+- New Users chats are saved in `local storage` but they don't have any dummy data.
 
 ## Deployment
 
