@@ -125,7 +125,7 @@ const ChatBubble = (props) => {
         } bg-dark-bg divide-y divide-gray-100 rounded-lg shadow w-40`}
       >
         <ul
-          className="py-2 text-sm text-white w-full"
+          className="py-2 text-sm text-white w-full min-w-[160px]"
           aria-labelledby="dropdownMenuIconButton"
         >
           <li>
