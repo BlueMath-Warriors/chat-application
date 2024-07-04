@@ -1,8 +1,20 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import { deleteMessage } from "@/utils/chatUtils"; // Importing the utility function
-import { useUserContext } from "@/context/userContext";
+import { copyToClipboard } from "@/utils/miscellaneous";
+import { EMOJIES } from "@/constants/dummyData";
 
+/**
+ * ChatBubble component represents a single chat message bubble in a chat conversation.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.message - The message object containing message details.
+ * @param {string} props.avatar - The URL of the sender's avatar.
+ * @param {string} [props.status="Delivered"] - The status of the message (e.g., Delivered, Read).
+ * @param {string} [props.align="left"] - Alignment of the chat bubble ("left" or "right").
+ * @param {string} [props.bubbleColor="green"] - Color of the chat bubble ("green" or "gray").
+ *
+ * @returns {JSX.Element} The ChatBubble component.
+ */
 const ChatBubble = (props) => {
   const {
     message,
@@ -12,7 +24,8 @@ const ChatBubble = (props) => {
     bubbleColor = "green",
   } = props;
   const [showOptions, setShowOption] = useState(false);
-  const { currentUser } = useUserContext();
+  const [hasStar, setHasStar] = useState(false);
+  const [selectedEmoji, setSelectedEmoji] = useState();
 
   const alignVariant = {
     left: "justify-start",
@@ -24,13 +37,25 @@ const ChatBubble = (props) => {
     gray: "bg-chat-gray",
   };
 
-  const handleDelete = () => {
-    deleteMessage(currentUser.id, message.id);
+  const handleStar = () => {
+    setHasStar(!hasStar);
+    setShowOption(false);
+  };
+
+  const handleCopy = () => {
+    copyToClipboard(message.text);
+    setShowOption(false);
+  };
+
+  const handleAddReaction = (emoji) => {
+    setSelectedEmoji(emoji);
     setShowOption(false);
   };
   return (
     <div
-      className={`flex w-full items-start gap-2.5 drop-shadow-md ${alignVariant[align]}`}
+      className={`flex w-full items-start gap-2.5 drop-shadow-md ${
+        alignVariant[align]
+      } ${selectedEmoji && "mb-2"}`}
     >
       {avatar && (
         <Image
@@ -42,23 +67,41 @@ const ChatBubble = (props) => {
         />
       )}
       <div
-        className={`flex flex-col max-w-3/4 leading-1.5 p-4 border-gray-200 ${bubbleColorVariants[bubbleColor]} rounded-e-xl rounded-es-xl`}
+        className={`flex relative flex-col max-w-3/4 leading-1.5 px-4 py-2 border-gray-200 ${bubbleColorVariants[bubbleColor]} rounded-e-xl rounded-es-xl`}
       >
+        {selectedEmoji && (
+          <div className="absolute bottom-[-14px] right-2 bg-dark-bg p-0.5 rounded-full group hover:p-1" onClick={()=>setSelectedEmoji(null)}>
+            <div className="relative w-5 h-5 ">
+              <Image
+                src={`/images/emoji/${selectedEmoji}.svg`}
+                alt="emoji icon"
+                fill
+              />
+            </div>
+          </div>
+        )}
+
         <div className="flex items-center">
           <span className="text-sm font-semibold text-white">
             {message.name}
           </span>
-          <span className=" text-[10px] font-normal text-gray-400">
+        </div>
+        <p className="text-sm font-normal py-1 text-white">{message.text}</p>
+        <div className="flex w-full justify-end items-center">
+          <Image
+            src={"/images/close-star-icon.svg"}
+            alt="star icon"
+            width={12}
+            height={12}
+            className={"mr-1.5 " + (hasStar ? "block" : "hidden")}
+          />
+          <span className="text-[10px] font-normal text-gray-400">
             {message.timestamp}
           </span>
         </div>
-        <p className="text-sm font-normal py-1 text-white">{message.text}</p>
-        <span className="text-xs font-normal text-gray-400">{status}</span>
       </div>
       <button
         id="dropdownMenuIconButton"
-        data-dropdown-toggle="dropdownDots"
-        data-dropdown-placement="bottom-start"
         className="inline-flex self-center items-center p-2 text-sm font-medium text-center text-white bg-dark-bg rounded-lg hover:bg-light-gray focus:ring-4 focus:outline-none"
         type="button"
         onClick={() => {
@@ -87,11 +130,57 @@ const ChatBubble = (props) => {
         >
           <li>
             <button
-              onClick={handleDelete}
-              className="block w-full px-4 py-1.5 bg-dark-bg hover:bg-dark-gray"
+              onClick={handleStar}
+              className={
+                "flex items-center gap-4 w-full px-4 py-1.5 bg-dark-bg hover:bg-dark-gray"
+              }
             >
-              Delete
+              <Image
+                src={
+                  hasStar
+                    ? "/images/close-star-icon.svg"
+                    : "/images/open-star-icon.svg"
+                }
+                alt="star icon"
+                width={18}
+                height={18}
+              />
+              {hasStar ? "Unstar" : "Star"}
             </button>
+
+            <button
+              onClick={handleCopy}
+              className={
+                "flex items-center gap-4 w-full px-4 py-1.5 bg-dark-bg hover:bg-dark-gray"
+              }
+            >
+              <Image
+                src={"/images/copy-icon.svg"}
+                alt="copy icon"
+                width={16}
+                height={16}
+              />
+              Copy
+            </button>
+            <div className="w-full flex px-2 pt-2">
+              {EMOJIES.map((emoji) => {
+                return (
+                  <div
+                    key={`${message.id}-${emoji}`}
+                    className=" flex w-fit items-center justify-center group hover:bg-dark-bg-2 p-1.5 rounded-full"
+                    onClick={() => handleAddReaction(emoji)}
+                  >
+                    <Image
+                      src={`/images/emoji/${emoji}.svg`}
+                      alt="thumbs up"
+                      width={20}
+                      height={20}
+                      className="group-hover:-translate-y-1 group-hover:scale-110"
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </li>
         </ul>
       </div>

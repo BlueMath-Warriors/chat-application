@@ -40,7 +40,7 @@ export const saveChatsToLocalStorage = (chats) => {
 
 // Function to add a new message to chats
 export const addMessageToChat = (participants, newMessage, currentUser) => {
-  // Load chats data from localStorage
+  // Load all chats data from localStorage
   let chats = JSON.parse(localStorage.getItem("CHATS_DATA"));
 
   // Find the chat index that matches the participants
@@ -83,38 +83,28 @@ export const addMessageToChat = (participants, newMessage, currentUser) => {
         chat.participants.includes(participantId)
       )
     );
-  }
-
-  return loadChatsFromLocalStorage(participants[0], participants[1]);
-};
-
-export const deleteMessage = (selectedUserId, messageId) => {
-  console.log(selectedUserId, messageId);
-  const storedChats = JSON.parse(localStorage.getItem("CHATS_DATA")) || [];
-  const selectedChat = storedChats.find(
-    (chat) => chat.userId === selectedUserId
-  );
-
-  if (selectedChat) {
-    // Filter out the deleted message
-    const updatedMessages = selectedChat.messages.filter(
-      (message) => message.id !== messageId
-    );
-
-    // Update the selected chat with updated messages
-    const updatedChat = { ...selectedChat, messages: updatedMessages };
-
-    // Update chats array with the updated chat
-    const updatedChats = storedChats.map((chat) =>
-      chat.userId === selectedUserId ? updatedChat : chat
-    );
-
-    // Save updated chats back to local storage
-    localStorage.setItem("CHATS_DATA", JSON.stringify(updatedChats));
-
-    return updatedMessages;
   } else {
-    console.error("Chat not found");
-    return [];
+    // Create a new chat
+    const newChat = {
+      participants: participants,
+      messages: [
+        {
+          id: 1,
+          text: newMessage.text,
+          timestamp: newMessage.timestamp,
+          sender: currentUser.id,
+        },
+      ],
+    };
+
+    // Update chats array with new chat
+    const updatedChats = [...chats, newChat];
+    console.log(updatedChats);
+
+    // Save updated chats data back to localStorage
+    saveChatsToLocalStorage(updatedChats);
+
+    // Return the newly created chat
+    return [newChat];
   }
 };

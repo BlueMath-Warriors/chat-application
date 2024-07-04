@@ -6,9 +6,9 @@ import ChatDetail from "@/components/ChatDetail";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Chat() {
-  const [selectedUser, setSelectedUser] = useState();
-  const [showChatList, setShowChatList] = useState(false);
-  const [showConversation, setShowConversation] = useState(true);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showChatList, setShowChatList] = useState(true);
+  const [showConversation, setShowConversation] = useState(false);
   const handleUserSelect = (user) => {
     setSelectedUser(user);
   };

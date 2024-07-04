@@ -3,7 +3,18 @@ import Image from "next/image";
 import { useUserContext } from "@/context/userContext";
 import { loadUsersFromLocalStorage } from "@/utils/chatUtils";
 
-const UsersList = ({ onSelectUser, show, handleShowConversation }) => {
+/**
+ * UsersList component displays a list of users and allows searching and selecting a user.
+ *
+ * @param {Object} props - The component props.
+ * @param {Function} props.onSelectUser - Callback function when a user is selected.
+ * @param {boolean} props.show - Flag to show or hide the user list.
+ * @param {Function} props.handleShowConversation - Function to handle showing the conversation view.
+ *
+ * @returns {JSX.Element} The UsersList component.
+ */
+const UsersList = (props) => {
+  const { onSelectUser, show, handleShowConversation } = props;
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -11,9 +22,9 @@ const UsersList = ({ onSelectUser, show, handleShowConversation }) => {
 
   useEffect(() => {
     const storedUsers = loadUsersFromLocalStorage();
-    setUsers(storedUsers);
+    setUsers(storedUsers.filter((user) => user?.id !== currentUser?.id));
     setFilteredUsers(storedUsers);
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     if (search.trim() === "") {

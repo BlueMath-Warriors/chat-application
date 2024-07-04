@@ -8,8 +8,20 @@ import {
   addMessageToChat,
   loadUsersFromLocalStorage,
 } from "@/utils/chatUtils";
+import { formatTimestamp } from "@/utils/miscellaneous";
 
-const ChatDetail = ({ selectedUser, show, handleShowChatList }) => {
+/**
+ * ChatDetail component displays the detailed chat view between the current user and the selected user.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.selectedUser - The user currently selected for chat.
+ * @param {boolean} props.show - Flag to show or hide the chat detail view.
+ * @param {Function} props.handleShowChatList - Function to handle showing the chat list view.
+ *
+ * @returns {JSX.Element} The ChatDetail component.
+ */
+const ChatDetail = (props) => {
+  const { selectedUser, show, handleShowChatList } = props;
   const [chat, setChat] = useState();
   const [users, setUsers] = useState();
 
@@ -40,7 +52,7 @@ const ChatDetail = ({ selectedUser, show, handleShowChatList }) => {
       id: chat?.messages?.length + 1 || 1,
       text: typedMessage,
       sender: currentUser.name,
-      timestamp: new Date().toLocaleTimeString(),
+      timestamp: formatTimestamp(new Date()),
     };
 
     // Update selectedChat in state and localStorage
@@ -49,9 +61,6 @@ const ChatDetail = ({ selectedUser, show, handleShowChatList }) => {
       newMessage,
       currentUser
     );
-    console.log(chat);
-    console.log(updatedChats);
-    saveChatsToLocalStorage(updatedChats);
     setChat(updatedChats[0]);
 
     // Clear the input field after sending
