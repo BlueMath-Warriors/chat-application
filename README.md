@@ -1,42 +1,71 @@
-# chat-application
+# Chat Application
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Overview
 
-## Getting Started
+This project is a WhatsApp-like interface built using Next.js, featuring functionalities such as sending, reacting to, and receiving messages. The application does not use a backend database; instead, messages are stored locally in the browser's localStorage.
 
-First, run the development server:
+## Purpose
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The purpose of this application is to assess and demonstrate frontend development skills with Next.js. It serves as a demo application showcasing various UI/UX features commonly found in messaging apps.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Detailed Setup Instructions
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Prerequisites
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+- Node.js v21.7.1 or higher
+- npm (Node Package Manager)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. **Clone the code:**
 
-## Learn More
+   ```bash
+   git clone https://github.com/BlueMath-Warriors/chat-application.git
+2. **Install Dependencies:**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash 
+   npm i
+3. **Running Development Server:**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash 
+   npm run dev
+3. **To Build the Application:**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```bash 
+   npm run build
+3. **To serve the built application:**
 
-## Deploy on Vercel
+   ```bash 
+   npm run start
+# Technologies Used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Frontend
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Next.js**: React framework for server-rendered applications.
+- **tailwind CSS**: Utility-first CSS framework for rapid UI development.
+
+## Database
+
+- No backend database used; messages and user data are stored in the browser's `localStorage`.
+
+## Other Tools and Libraries
+
+- **Netlify**: Deployment platform for hosting the application.
+
+## Assumptions or Considerations
+
+- The application is designed solely for frontend assessment purposes.
+- Features such as real-time communication or socket-based updates are not implemented.
+- Message reactions and starred messages are not persistent and are reset on app refresh.
+- Currently, there are only five users: `John Doe` `Jane Smith` `Alice Johnson` `Bob Brown` `Apple Chad` whose dummy chat is present in the storage.
+
+## Deployment
+
+- The application is deployed on Netlify and can be accessed at [Chat App on Netlify](https://chat-app-arithmiks.netlify.app).
+
+## Working Mechanism
+
+- **LocalStorage**: Messages and user data are stored locally in the browser's `localStorage`.
+- **User Interaction**: Users can send, react to, and star messages within the application.
+- **Cross-Profile Messaging**: Messages sent by a user can be accessed from another profile when logged in.
+
