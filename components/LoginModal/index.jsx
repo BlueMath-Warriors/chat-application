@@ -36,18 +36,6 @@ const LoginModal = ({ show, onHide, handleLogin }) => {
             <h3 className="text-xl font-semibold text-white">
               Sign in to Chat!
             </h3>
-            <button
-              type="button"
-              className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
-              onClick={onHide}
-            >
-              <Image
-                src={"images/cross-icon.svg"}
-                alt="cross icon"
-                height={10}
-                width={10}
-              />
-            </button>
           </div>
           <div className="p-4 md:p-5">
             <form className="space-y-4" onSubmit={handleSubmit}>
