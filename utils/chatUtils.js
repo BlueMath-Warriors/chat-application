@@ -99,7 +99,6 @@ export const addMessageToChat = (participants, newMessage, currentUser) => {
 
     // Update chats array with new chat
     const updatedChats = [...chats, newChat];
-    console.log(updatedChats);
 
     // Save updated chats data back to localStorage
     saveChatsToLocalStorage(updatedChats);

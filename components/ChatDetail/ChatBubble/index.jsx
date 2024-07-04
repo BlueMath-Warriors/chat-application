@@ -70,7 +70,10 @@ const ChatBubble = (props) => {
         className={`flex relative flex-col max-w-3/4 leading-1.5 px-4 py-2 border-gray-200 ${bubbleColorVariants[bubbleColor]} rounded-e-xl rounded-es-xl`}
       >
         {selectedEmoji && (
-          <div className="absolute bottom-[-14px] right-2 bg-dark-bg p-0.5 rounded-full group hover:p-1" onClick={()=>setSelectedEmoji(null)}>
+          <div
+            className="absolute bottom-[-14px] right-2 bg-dark-bg p-0.5 rounded-full group hover:p-1"
+            onClick={() => setSelectedEmoji(null)}
+          >
             <div className="relative w-5 h-5 ">
               <Image
                 src={`/images/emoji/${selectedEmoji}.svg`}

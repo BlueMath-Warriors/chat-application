@@ -70,7 +70,6 @@ const ChatDetail = (props) => {
   const handleInputChange = (e) => {
     setTypedMessage(e.target.value);
   };
-  console.log(selectedUser);
 
   return (
     <div
