@@ -4,24 +4,25 @@ import LoginModal from "@/components/LoginModal";
 import { useRouter } from "next/router";
 import { loadUsersFromLocalStorage, addUser } from "@/utils/chatUtils";
 import { useUserContext } from "@/context/userContext";
+import { User } from "@/lib/types";
+
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Login() {
-
+const Login = (): JSX.Element => {
   const router = useRouter();
   const { loginUser } = useUserContext();
-  const [showLogin, setShowLogin] = useState(true);
 
-  const handleLogin = (name) => {
-    const users = loadUsersFromLocalStorage();
-    const existingUser = users.find((user) => user.name === name);
+  const handleLogin = (name: string) => {
+    const users: User[] = loadUsersFromLocalStorage();
+    const existingUser = users.find((user) => user.name === name) as
+      | User
+      | undefined;
 
     if (existingUser) {
       loginUser(existingUser);
-      setShowLogin(false);
       router.push("/chat");
     } else {
-      const newUser = {
+      const newUser: User = {
         id: users.length + 1, // Incremental ID
         name: name,
         avatar: `https://randomuser.me/api/portraits/men/${
@@ -32,7 +33,6 @@ export default function Login() {
       addUser(newUser); // Add new user to localStorage
 
       loginUser(newUser);
-      setShowLogin(false);
       router.push("/chat");
     }
   };
@@ -41,13 +41,10 @@ export default function Login() {
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
-      <LoginModal
-        show={showLogin}
-        onHide={() => {
-          setShowLogin(false);
-        }}
-        handleLogin={handleLogin}
-      />
+      <LoginModal handleLogin={handleLogin} />
     </main>
   );
-}
+};
+
+
+export default Login;

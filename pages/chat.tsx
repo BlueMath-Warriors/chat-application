@@ -4,23 +4,26 @@ import UsersList from "@/components/UsersList";
 import { useRouter } from "next/router";
 import ChatDetail from "@/components/ChatDetail";
 import { getUserFromLocalStorage } from "@/utils/localStorage";
+import { User } from "@/lib/types";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Chat() {
   const router = useRouter();
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [showChatList, setShowChatList] = useState(true);
-  const [showConversation, setShowConversation] = useState(false);
-  const handleUserSelect = (user) => {
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [showChatList, setShowChatList] = useState<boolean>(true);
+  const [showConversation, setShowConversation] = useState<boolean>(false);
+
+  const handleUserSelect = (user: User): void => {
     setSelectedUser(user);
   };
 
-  const handleShowChatList = () => {
+  const handleShowChatList = (): void => {
     setShowConversation(false);
     setShowChatList(true);
   };
 
-  const handleShowConversation = () => {
+  const handleShowConversation = (): void => {
     setShowConversation(true);
     setShowChatList(false);
   };
@@ -38,15 +41,23 @@ export default function Chat() {
     >
       <UsersList
         onSelectUser={handleUserSelect}
-        selectedUser={selectedUser}
         show={showChatList}
         handleShowConversation={handleShowConversation}
       />
-      <ChatDetail
-        selectedUser={selectedUser}
-        show={showConversation}
-        handleShowChatList={handleShowChatList}
-      />
+      {selectedUser ? (
+        <ChatDetail
+          selectedUser={selectedUser}
+          show={showConversation}
+          handleShowChatList={handleShowChatList}
+        />
+      ) : (
+        <div className="flex flex-col items-center justify-center min-h-screen h-full w-full">
+          <p className="text-xl text-white font-bold">No Chat Selected</p>
+          <p className="text-white text-sm opacity-80">
+            Select a User to view the conversation
+          </p>
+        </div>
+      )}
     </main>
   );
 }

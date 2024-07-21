@@ -4,6 +4,13 @@ import { useRouter } from "next/router";
 import { useUserContext } from "@/context/userContext";
 import { loadUsersFromLocalStorage } from "@/utils/chatUtils";
 import { clearUserFromLocalStorage } from "@/utils/localStorage";
+import { User } from "@/lib/types";
+
+type UsersListProps = {
+  onSelectUser: (user: User) => void; // Adjust the type as needed
+  show: boolean;
+  handleShowConversation: () => void;
+};
 
 /**
  * UsersList component displays a list of users and allows searching and selecting a user.
@@ -15,12 +22,12 @@ import { clearUserFromLocalStorage } from "@/utils/localStorage";
  *
  * @returns {JSX.Element} The UsersList component.
  */
-const UsersList = (props) => {
+const UsersList = (props: UsersListProps): JSX.Element => {
   const router = useRouter();
   const { onSelectUser, show, handleShowConversation } = props;
-  const [search, setSearch] = useState("");
-  const [users, setUsers] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [search, setSearch] = useState<string>("");
+  const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const { currentUser } = useUserContext();
 
   const handleLogout = () => {
@@ -94,7 +101,7 @@ const UsersList = (props) => {
       <div className="flex flex-col w-full max-h-screen bg-dark-bg-2 overflow-y-auto px-6">
         {/* Display filtered users */}
         {filteredUsers?.length > 0 ? (
-          filteredUsers?.map((user, index) => (
+          filteredUsers?.map((user: User, index: number) => (
             <div
               key={`user-list-item-${index}`}
               className="flex items-center w-full bg-dark-bg-2 p-2 rounded-md mb-2 hover:bg-dark-bg cursor-pointer"
@@ -106,7 +113,7 @@ const UsersList = (props) => {
               <div className="relative w-12 h-12 rounded-full overflow-hidden">
                 <Image src={user.avatar} alt="user avatar" fill />
               </div>
-              <p className="ml-3">{user.name}</p>
+              <p className="ml-3 text-white font-semibold">{user.name}</p>
             </div>
           ))
         ) : (

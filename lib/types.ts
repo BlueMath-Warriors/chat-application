@@ -4,6 +4,12 @@ export type User = {
   avatar: string;
 };
 
+export type UserContextType = {
+  currentUser: User | null;
+  loginUser: (user: User) => void;
+  logoutUser: () => void;
+};
+
 export type Emoji = "thumbs-up" | "heart" | "smile" | "cry" | "meh";
 
 export type UserId = number;

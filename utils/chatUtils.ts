@@ -50,7 +50,7 @@ export const addMessageToChat = (
   participants: UserId[],
   newMessage: Message,
   currentUser: User
-) => {
+): Chat[] => {
   // Load all chats data from localStorage
   let chats = JSON.parse(localStorage.getItem("CHATS_DATA") || "[]");
 
@@ -96,7 +96,8 @@ export const addMessageToChat = (
     );
   } else {
     // Create a new chat
-    const newChat = {
+    const newChat: Chat = {
+      id: chats.length + 1,
       participants: participants,
       messages: [
         {
