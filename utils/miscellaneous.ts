@@ -1,4 +1,4 @@
-export const copyToClipboard = async (text) => {
+export const copyToClipboard = async (text: string): Promise<void> => {
   try {
     await navigator.clipboard.writeText(text);
   } catch (error) {
@@ -6,7 +6,7 @@ export const copyToClipboard = async (text) => {
   }
 };
 
-export const formatTimestamp = (date) => {
+export const formatTimestamp = (date: Date): string => {
   return date.toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
