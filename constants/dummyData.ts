@@ -1,4 +1,6 @@
-export const USERS = [
+import { User, Emoji, Chat } from "../lib/types";
+
+export const USERS: User[] = [
   {
     id: 1,
     name: "John Doe",
@@ -26,7 +28,7 @@ export const USERS = [
   },
 ];
 
-export const CHATS_DATA = [
+export const CHATS_DATA: Chat[] = [
   {
     id: 1,
     participants: [1, 2], // John Doe and Jane Smith
@@ -309,4 +311,4 @@ export const CHATS_DATA = [
   },
 ];
 
-export const EMOJIES = ["thumbs-up", "heart", "smile", "cry", "meh"];
+export const EMOJIES: Emoji[] = ["thumbs-up", "heart", "smile", "cry", "meh"];
