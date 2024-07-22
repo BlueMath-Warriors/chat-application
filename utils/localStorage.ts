@@ -1,18 +1,17 @@
+// initializeLocalStorage.ts
+import { User } from "@/lib/types";
 import { USERS, CHATS_DATA } from "@/constants/dummyData";
-export const setUserInLocalStorage = (user) => {
-  localStorage.setItem("currentUser", JSON.stringify(user));
-};
 
-export const getUserFromLocalStorage = () => {
+export const getUserFromLocalStorage = (): User | null => {
   const userJSON = localStorage.getItem("currentUser");
-  return userJSON ? JSON.parse(userJSON) : null;
+  return userJSON ? (JSON.parse(userJSON) as User) : null;
 };
 
-export const clearUserFromLocalStorage = () => {
+export const clearUserFromLocalStorage = (): void => {
   localStorage.removeItem("currentUser");
 };
 
-const initializeLocalStorage = () => {
+const initializeLocalStorage = (): void => {
   // Check if USERS already exist in localStorage
   if (!localStorage.getItem("USERS")) {
     localStorage.setItem("USERS", JSON.stringify(USERS));

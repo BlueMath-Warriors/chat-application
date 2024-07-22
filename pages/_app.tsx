@@ -1,9 +1,10 @@
 import "@/styles/globals.css";
+import type { AppProps } from "next/app";
 import { useEffect } from "react";
 import { UserProvider } from "@/context/userContext";
 import initializeLocalStorage from "@/utils/localStorage";
 
-function MyApp({ Component, pageProps }) {
+function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     initializeLocalStorage();
   }, []);
@@ -15,4 +16,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default App;

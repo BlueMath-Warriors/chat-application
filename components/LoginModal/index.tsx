@@ -1,24 +1,26 @@
-import Image from "next/image";
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 
 /**
  * LoginModal Component
  * @param {Object} props - Component props
- * @param {boolean} props.show - Controls visibility of the modal
- * @param {Function} props.onHide - Callback function to hide the modal
  * @param {Function} props.handleLogin - Callback function to handle login
  * @returns {JSX.Element} Login modal component
  */
-const LoginModal = ({ show, onHide, handleLogin }) => {
-  const [userName, setUserName] = useState("");
+
+const LoginModal = ({
+  handleLogin,
+}: {
+  handleLogin: (username: string) => void;
+}) => {
+  const [userName, setUserName] = useState<string>("");
 
   // Handles input change for username
-  const handleChangeUserName = (e) => {
+  const handleChangeUserName = (e: ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value);
   };
 
   // Handles form submission for login
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleLogin(userName);
   };
@@ -26,9 +28,7 @@ const LoginModal = ({ show, onHide, handleLogin }) => {
   return (
     <div
       id="login-modal"
-      className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 ${
-        show ? "flex" : "hidden"
-      } justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
+      className={`overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full`}
     >
       <div className="relative p-4 w-full max-w-md max-h-full ">
         <div className="relative bg-dark-bg rounded-lg shadow">

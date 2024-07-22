@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { copyToClipboard } from "@/utils/miscellaneous";
 import { EMOJIES } from "@/constants/dummyData";
+import { User, Message, Emoji } from "@/lib/types";
+
+type ChatBubbleProps = {
+  message: Message;
+  avatar: string;
+  status?: "Delivered" | "Sent" | "Seen" | "";
+  align?: "left" | "right";
+  bubbleColor?: "green" | "gray";
+};
 
 /**
  * ChatBubble component represents a single chat message bubble in a chat conversation.
@@ -15,7 +24,7 @@ import { EMOJIES } from "@/constants/dummyData";
  *
  * @returns {JSX.Element} The ChatBubble component.
  */
-const ChatBubble = (props) => {
+const ChatBubble = (props: ChatBubbleProps): JSX.Element => {
   const {
     message,
     avatar,
@@ -23,9 +32,9 @@ const ChatBubble = (props) => {
     align = "left",
     bubbleColor = "green",
   } = props;
-  const [showOptions, setShowOption] = useState(false);
-  const [hasStar, setHasStar] = useState(false);
-  const [selectedEmoji, setSelectedEmoji] = useState();
+  const [showOptions, setShowOption] = useState<boolean>(false);
+  const [hasStar, setHasStar] = useState<boolean>(false);
+  const [selectedEmoji, setSelectedEmoji] = useState<Emoji | null>(null);
 
   const alignVariant = {
     left: "justify-start",
@@ -37,17 +46,17 @@ const ChatBubble = (props) => {
     gray: "bg-chat-gray",
   };
 
-  const handleStar = () => {
+  const handleStar = (): void => {
     setHasStar(!hasStar);
     setShowOption(false);
   };
 
-  const handleCopy = () => {
+  const handleCopy = (): void => {
     copyToClipboard(message.text);
     setShowOption(false);
   };
 
-  const handleAddReaction = (emoji) => {
+  const handleAddReaction = (emoji: Emoji): void => {
     setSelectedEmoji(emoji);
     setShowOption(false);
   };
@@ -84,11 +93,7 @@ const ChatBubble = (props) => {
           </div>
         )}
 
-        <div className="flex items-center">
-          <span className="text-sm font-semibold text-white">
-            {message.name}
-          </span>
-        </div>
+        <div className="flex items-center"></div>
         <p className="text-sm font-normal py-1 text-white">{message.text}</p>
         <div className="flex w-full justify-end items-center">
           <Image
@@ -166,7 +171,7 @@ const ChatBubble = (props) => {
               Copy
             </button>
             <div className="w-full flex px-2 pt-2">
-              {EMOJIES.map((emoji) => {
+              {EMOJIES.map((emoji: Emoji) => {
                 return (
                   <div
                     key={`${message.id}-${emoji}`}
